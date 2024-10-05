@@ -9,9 +9,9 @@ import os
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
-audio_path_mp3 = os.path.join(PROJECT_ROOT, 'public', 'audios', 'message_0.mp3')
-audio_path_wav = os.path.join(PROJECT_ROOT, 'public', 'audios', 'message_0.wav')
-audio_path_json = os.path.join(PROJECT_ROOT, 'public', 'audios', 'message_0.json')
+audio_path_mp3 = os.path.join(PROJECT_ROOT, 'audios', 'message_0.mp3')
+audio_path_wav = os.path.join(PROJECT_ROOT, 'audios', 'message_0.wav')
+audio_path_json = os.path.join(PROJECT_ROOT, 'audios', 'message_0.json')
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(PROJECT_ROOT, 'hefry-api-982ff5fc28df.json')
 credentials = service_account.Credentials.from_service_account_file(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])

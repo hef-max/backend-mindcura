@@ -8,8 +8,6 @@ from .auth import auth as auth_blueprint
 from .models import User, db
 import os
 
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-
 load_dotenv()
 
 migrate = Migrate()
@@ -21,7 +19,6 @@ def create_app():
     app.secret_key = os.environ.get("SECRET_KEY") 
     app.config["MONGO_URI"] = os.environ.get("MONGO_URI") 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mind.db'
-    app.config['UPLOAD_FOLDER'] = os.path.join(PROJECT_ROOT, 'public', 'images')
     
     mongo.init_app(app)
     db.init_app(app)

@@ -16,12 +16,12 @@ warnings.filterwarnings('ignore')
 tf.compat.v1.reset_default_graph()
 device = torch.device('cpu')
 
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-cnn_model = timm.create_model("hf_hub:timm/convnext_tiny.in12k_ft_in1k", pretrained=True, num_classes=7)
-cnn_model.load_state_dict(torch.load(os.path.join(PROJECT_ROOT, 'public', 'model', 'modelCNN-best.pth'), map_location=device))
+cnn_model = tf.keras.models.load_model(os.path.join(PROJECT_ROOT, 'model', 'model_v1.2.h5'))
+cnn_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-lstm_model = tf.keras.models.load_model(os.path.join(PROJECT_ROOT, 'public', 'model', 'modelLSTM-new.h5'))
+lstm_model = tf.keras.models.load_model(os.path.join(PROJECT_ROOT, 'model', 'modelLSTM-new.h5'))
 lstm_model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 def preprocess_frame(frame):
@@ -49,14 +49,14 @@ def classify_face_emotion(image):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     image = cv2.resize(image, (120, 120)) 
 
-    emotion, predictions = classify_expression(image)
+    # emotion, predictions = classify_expression(image)
 
-    # image = np.expand_dims(image, axis=-1)  
-    # image = np.expand_dims(image, axis=0)  
-    # image = image / 255.0  
+    image = np.expand_dims(image, axis=-1)  
+    image = np.expand_dims(image, axis=0)  
+    image = image / 255.0  
 
-    # predictions = model_cnn.predict(image)
-    # emotion = np.argmax(predictions)
+    predictions = cnn_model.predict(image)
+    emotion = np.argmax(predictions)
 
     return emotion, predictions
 
